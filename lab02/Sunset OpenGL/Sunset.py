@@ -1,8 +1,8 @@
-
 from PyQt5 import QtWidgets
 from PyQt5.QtOpenGL import QGLWidget
 from PyQt5.QtOpenGL import QGLFormat
 import PyQt5.QtCore as QtCore
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist
 
 import OpenGL
 import OpenGL.GL as gl
@@ -11,11 +11,7 @@ import OpenGL.GLU as glu
 import math
 import random
 import sys
-
-class Vertex:
-    def __init__(self, x, y):
-        self.x = x/100
-        self.y = y/100
+import os
 
 def cv(x):
     return x/100
@@ -211,6 +207,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.Btn_clear.clicked.connect(self.closeEvent)
         self.Btn_draw.clicked.connect(self.animation)
 
+        #BG and FG sounds
+        self.playMusic()
+        self.rainSound()
+
     def windowSetting(self) -> None:
         self.setWindowTitle("B19102104 Muhammad Umar Anzar")
         self.resize(800,600)
@@ -246,13 +246,39 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def animation(self):
         if self.animate:
+            self.rainSound.play()
             self.timer.timeout.connect(self.GL_window.update)
             self.timer.start(20)
             self.animate = False
 
     def closeEvent(self, event):
         self.animate = True
+        self.rainSound.pause()
         self.timer.stop()
+
+    def playMusic(self):
+        self.player = QMediaPlayer()
+        path  = os.path.join(os.getcwd(), 'NuvoleBianche.mp3')
+        url = QtCore.QUrl.fromLocalFile(path)
+        content = QMediaContent(url)
+
+        self.player.setMedia(content)
+        current = self.player.volume()
+        self.player.setVolume(current-40)
+        self.player.play()
+
+    def rainSound(self):
+        self.playlist = QMediaPlaylist()
+        path  = os.path.join(os.getcwd(), 'rain.mp3')
+        url = QtCore.QUrl.fromLocalFile(path)
+        self.playlist.addMedia(QMediaContent(url))
+        self.playlist.setPlaybackMode(QMediaPlaylist.Loop)
+
+        self.rainSound = QMediaPlayer()
+        self.rainSound.setPlaylist(self.playlist)
+        current = self.rainSound.volume()
+        self.rainSound.setVolume(current-20)
+
 
 
 
