@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>AAA</title>
+        <style>
+            body {
+                margin: auto;
+                margin-bottom: 100px;
+                background-color: #36393e;
+                color: white;
+            }
+
+            canvas {
+                width: 70%;
+                height: 60%;
+                border: 5px solid #ffa500;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="js/three.js"></script>
+
+        <h2>B19102104-Muhammad Umar Anzar</h2>
+        <div style="text-align: center;">
+            <h1>Bullet</h1>
+            <canvas id="myCanvas" myattr="myattr"></canvas>
+        </div>
+
+        <div style="text-align: center;">
+            <button style="width: 10%;" onclick="BtnChoose(2)">Spiral</button>
+            <button style="width: 10%;" onclick="BtnChoose(1)">Line</button>
+            <button style="width: 10%;" onclick="BtnAnimate()">Animate</button>
+            <button style="width: 10%;" onclick="BtnStop()">Stop</button>
+        </div>
+
+        </canvas>
+
+        <script>
+            //Canvas
+            var canvas = document.getElementById("myCanvas");
+            console.log(canvas.offsetWidth, canvas.offsetHeight);
+
+            //Scene Perspective and Render
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(40, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+
+            var renderer = new THREE.WebGLRenderer({ canvas: myCanvas });
+
+            renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+            //Initilize empty Canvas
+            renderer.render(scene, camera);
+
+            camera.position.set(0, 0, 30);
+            camera.lookAt(0, 0, 0);
+
+
+
+            //Loading Texture
+            const texLoader = new THREE.TextureLoader();
+
+            //Creating Cylinder Shape having texture
+            const geometry = new THREE.CylinderGeometry(0.1, 3, 5, 360);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0xffa500
+                , map: texLoader.load('copper.jpg')
+            });
+
+
+            const cylinder = new THREE.Mesh(geometry, material);
+            //cylinder.rotation.x = 0;
+            //cylinder.rotation.y = 0;
+            cylinder.rotation.z = 1 / 2 * Math.PI;
+            cylinder.position.set(40, 0, 30);
+            scene.add(cylinder);
+
+            var i = 0;
+            var line = (obj, x0, y0, z0, x1, y1, z1) => {
+                let t = ((x1 - x0) / 100000) * i;
+                a = x1 - x0
+                b = y1 - y0
+                c = z1 - z0
+                obj.position.x = x0 + a * t;
+                obj.position.y = y0 + b * t;
+                obj.position.z = z0 + c * t;
+                i -= 1;
+            };
+
+            var helix = (obj, n, len, loops, raidus, x0, y0, z0,) => {
+                let t = ((loops * Math.PI - 0) / n) * i;
+                obj.position.z = z0 + raidus * Math.cos(t);
+                obj.position.y = y0 + raidus * Math.sin(t);
+                obj.position.x = x0 + raidus * len * t;
+                i -= 1;
+            };
+
+            var choice = 1;
+
+            //Button choose
+            var BtnChoose = (x) => choice = x;
+
+            //Equation Select
+            var path = () => {
+                if (choice == 1) { line(cylinder, 40, 0, -20, -150, 0, -20); }
+                else if (choice == 2) { helix(cylinder, 360, 0.5, 10, 10, 40, 0, -20); };
+            }
+
+            //Variables update function
+            var update = () => {
+                path();
+
+                if (cylinder.position.x <= -95) {
+                    cylinder.position.set(40, 0, 30);
+                    i = 0;
+                }
+            };
+
+            var render = () => renderer.render(scene, camera);
+
+            var stop = true;
+            //GAMELOOP
+            var GameLoop = () => {
+                if (stop === true) { return 0; }//Return to stop recursion
+                setTimeout(function () { requestAnimationFrame(GameLoop); }, 1)//1 millisecond pause
+                update();
+                render();
+            };
+            
+            var BtnAnimate = () => {
+                if (stop === false) { return 0; }
+                console.log("Animate ON");
+                stop = false;
+                GameLoop();
+            }
+            
+            var BtnStop = () => {
+                if (stop === true) { return 0; }
+                stop = true;
+                console.log("STOP");
+            }
+
+        </script>
+
+
+    </body>
+
+</html>

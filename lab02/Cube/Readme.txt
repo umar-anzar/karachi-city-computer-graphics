@@ -1,0 +1,1 @@
+obj file can be open using 3d builder or paint3d in windows 10
