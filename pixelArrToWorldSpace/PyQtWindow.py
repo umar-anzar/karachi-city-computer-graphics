@@ -26,11 +26,9 @@ class MainWindow(QtWidgets.QMainWindow):
         #Button functions
         self.Btn_clear.clicked.connect(self.closeEvent)
         self.Btn_draw.clicked.connect(self.animation)
-        self.Btn_generate.clicked.connect(self.GL_window.mazeGenerator)
-
 
     def windowSetting(self) -> None:
-        self.setWindowTitle("B19102104 M UMAR ANZAR Maze Generator")
+        self.setWindowTitle("B19102104 M UMAR ANZAR Binary Array to Blocks")
         self.resize(800,600)
         self.center()
 
@@ -51,7 +49,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.GL_window = GL_window.GLWidget(self.central_widget)
         self.Btn_clear = QtWidgets.QPushButton("Animation Off",self.central_widget)
         self.Btn_draw = QtWidgets.QPushButton("Animation ON",self.central_widget)
-        self.Btn_generate = QtWidgets.QPushButton("Generate",self.central_widget)
 
         self.verticalLayout1 = QtWidgets.QVBoxLayout(self.central_widget)
         self.horizontalLayout1 = QtWidgets.QHBoxLayout()
@@ -60,7 +57,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.verticalLayout1.addLayout(self.horizontalLayout1)
         self.horizontalLayout1.addWidget(self.Btn_draw)
         self.horizontalLayout1.addWidget(self.Btn_clear)
-        self.horizontalLayout1.addWidget(self.Btn_generate)
 
     def animation(self):
         #Function That uses Qtimer multiThreading to Animated The OpenGl Widget
@@ -69,12 +65,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.timer.timeout.connect(self.GL_window.animate) #Updating OpenGl Widget
             
             #Starts or restarts the timer with a timeout interval of msec milliseconds. Like setting FPS
-            self.timer.start(20)
+            self.timer.start(1)
             self.animate = False
         
 
     def closeEvent(self, event): # WHEN window is closed Automatically Qtimer is stopped.
-
         if not self.animate:
             print("Animation OFF")
         self.animate = True

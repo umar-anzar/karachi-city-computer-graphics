@@ -1,6 +1,7 @@
 '''
 By Muhammad Umar Anzar
 '''
+from turtle import width
 from PyQt5 import QtWidgets
 from PyQt5.QtOpenGL import QGLWidget
 from PyQt5.QtOpenGL import QGLFormat
@@ -61,7 +62,7 @@ class GLWidget(QGLWidget):
         Background color, values b/w 0-1 that is why I divided RGB by 255
         '''
         #255, 140, 0
-        self.r, self.g, self.b, self.a = 255, 140, 0, 1
+        self.r, self.g, self.b, self.a = 0,0,0, 1
         # initialize the screen to blueCalls glClearColor (in RGBA mode) 
         glClearColor(self.r/255, self.g/255, self.b/255, self.a/255)  
         #Alternate self.qglClearColor(QColor(r, g, b, a)) 
@@ -71,7 +72,14 @@ class GLWidget(QGLWidget):
         gluOrtho2D(self.x0, self.x1, self.y0, self.y1)# Specify the max coordinates -x,+x,-y,+y.
 
         #Attributes
-        
+        from PIL import Image, ImageFilter
+        import numpy as np
+        with Image.open('sample.jpg') as image:
+            edges_image = image.filter(ImageFilter.FIND_EDGES)
+            image = edges_image.convert('1')
+            arr = np.array(image)
+            self.maze_arr = arr*1
+
         # self.maze_arr = [
         #     [1,1,1,1,1,1,1,1,1,1,1,1,1],
         #     [1,0,1,0,1,0,1,0,0,0,0,0,1],
@@ -85,17 +93,18 @@ class GLWidget(QGLWidget):
         #     [1,0,1,1,1,1,1,1,1,1,1,1,1]
         # ]
 
-        self.maze_arr = [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,1,1,1,1,0,1,0,0,0,1,0,1,1,1,0,1,1,1,0,1],
-            [1,0,1,0,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,1,0,1],
-            [1,0,1,0,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1],
-            [1,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,1,0,0,1],
-            [1,0,1,1,1,1,0,1,0,0,0,1,0,1,1,1,0,1,0,1,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-        ]
+        # self.maze_arr = [
+        #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        #     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        #     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        #     [1,0,1,1,1,1,0,1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,1],
+        #     [1,0,1,0,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,1,0,0,1],
+        #     [1,0,1,0,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,0,1],
+        #     [1,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,1,0,0,0,1],
+        #     [1,0,1,1,1,1,0,1,0,0,0,1,0,1,1,1,0,1,0,1,0,0,1],
+        #     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        # ]
 
         # self.maze_arr = [
         #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
@@ -119,40 +128,20 @@ class GLWidget(QGLWidget):
         #     [1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1],
         #     [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         # ]
-        #self.box = Wall(0,0,self.Width,self.Length)
+
         self.xFactor = 0
         self.yFactor = 0
         self.Width,self.Length = self.xyFactorUpdate()
-
+        #self.box = Wall(0,0,self.Width,self.Length)
         self.walls = []
-        self.mazeMap= self.mazeMapper()
-
-        #self.mazeGenerator()
+        self.mazeGenerate = self.mazeGenerator()
+        
+        #self.walls = list(self.mazeGenerate)
 
         #glut.glutInitDisplayMode(glut.GLUT_DOUBLE | glut.GLUT_RGBA) I think its not working
         self.formatGL()
         
     def mazeGenerator(self):
-        import numpy as np
-        self.maze_arr = np.random.binomial(1,.3, size=(18,18))
-        self.maze_arr[:,0] = 1  #Borders
-        self.maze_arr[:,-1] = 1 #Borders
-        self.maze_arr[0,:] = 1  #Borders
-        self.maze_arr[-1,:] = 1 #Borders
-        self.maze_arr[0][-4:-2] = 0 #Gate
-        self.maze_arr[-1][1:3] = 0 #Gate
-        self.walls = []
-        self.mazeMap= self.mazeMapper()
-
-
-        self.xFactor = 0
-        self.yFactor = 0
-        self.Width,self.Length = self.xyFactorUpdate()
-
-        self.walls = []
-        self.mazeMap= self.mazeMapper()
-
-    def mazeMapper(self):
         for y, row in enumerate(self.maze_arr):
             for x,flag in enumerate(row):
                 if flag != 0:
@@ -208,7 +197,7 @@ class GLWidget(QGLWidget):
         #.
         #.
         try:
-            self.walls.append(next(self.mazeMap))
+            self.walls.append(next(self.mazeGenerate))
         except StopIteration:
             pass
 
