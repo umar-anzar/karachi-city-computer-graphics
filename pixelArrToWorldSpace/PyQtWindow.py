@@ -28,7 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.Btn_draw.clicked.connect(self.animation)
 
     def windowSetting(self) -> None:
-        self.setWindowTitle("B19102104 M UMAR ANZAR Binary Array to Blocks")
+        self.setWindowTitle("B19102104 M UMAR ANZAR Map Pixel Image Onto World Space")
         self.resize(800,600)
         self.center()
 
@@ -65,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.timer.timeout.connect(self.GL_window.animate) #Updating OpenGl Widget
             
             #Starts or restarts the timer with a timeout interval of msec milliseconds. Like setting FPS
-            self.timer.start(1)
+            self.timer.start(30)
             self.animate = False
         
 
