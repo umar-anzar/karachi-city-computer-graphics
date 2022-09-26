@@ -24,8 +24,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.animate = True
 
         #Button functions
-        self.Btn_clear.clicked.connect(self.closeEvent)
-        self.Btn_draw.clicked.connect(self.animation)
         self.Btn_inc.clicked.connect(self.GL_window.lineWidthInc)
         self.Btn_dec.clicked.connect(self.GL_window.lineWidthDec)
 
@@ -51,8 +49,6 @@ class MainWindow(QtWidgets.QMainWindow):
        
         self.central_widget = QtWidgets.QWidget(self)
         self.GL_window = GL_window.GLWidget(self.central_widget)
-        self.Btn_clear = QtWidgets.QPushButton("Animation Off",self.central_widget)
-        self.Btn_draw = QtWidgets.QPushButton("Animation ON",self.central_widget)
         self.Btn_inc = QtWidgets.QPushButton("Line Width++",self.central_widget)
         self.Btn_dec= QtWidgets.QPushButton("Line Width--",self.central_widget)
 
@@ -61,8 +57,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.verticalLayout1.addWidget(self.GL_window)
         self.verticalLayout1.addLayout(self.horizontalLayout1)
-        self.horizontalLayout1.addWidget(self.Btn_draw)
-        self.horizontalLayout1.addWidget(self.Btn_clear)
         self.horizontalLayout1.addWidget(self.Btn_inc)
         self.horizontalLayout1.addWidget(self.Btn_dec)
 

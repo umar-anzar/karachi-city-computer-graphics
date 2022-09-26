@@ -3,6 +3,7 @@ By Muhammad Umar Anzar
 '''
 
 import math
+import time
 
 from PyQt5 import QtWidgets
 from PyQt5.QtOpenGL import QGLWidget
@@ -25,31 +26,7 @@ class GLWidget(QGLWidget):
         self.setMouseTracking(False)
         #self.glInit() I think not working
 
-        # YOUR GLOBAL ATTRIBUTES HERE IN CONSTURCTOR
-        # HELIX VERTEX POINTS
-        self.vertex1 = []
-        self.vertex2 = []
-        n = 360
-
-        #Helix EQUATION
-        loops = 10
-        for i in range(n+n):
-            t = ((loops*math.pi - 0 ) / n ) * i
-            x = math.cos(t)
-            y = math.sin(t)
-            z = 0.01*t
-            self.vertex1.append([x,y,z])
-
-        #Torodial Spiral
-        R = 6/4
-        r = 2/4
-        loops = 10
-        for i in range(n+n):
-            t = ((5*math.pi - 0 ) / n ) * i
-            x = (r*math.sin(loops*t)+R)*math.cos(t)
-            y = (r*math.sin(loops*t)+R)*math.sin(t)
-            z = R*math.cos(loops*t)
-            self.vertex2.append([x,y,z])
+        
 
     def formatGL(self):
         fmt = QGLFormat()
@@ -76,6 +53,38 @@ class GLWidget(QGLWidget):
         # GLdouble zNear,
         # GLdouble zFar);
         glTranslatef(0.0,0.0, -5)
+
+        # YOUR GLOBAL ATTRIBUTES HERE IN INITIALIZE FUNCTION
+        #FPS
+        self.current_time = time.time()
+        self.last_time = 0
+        self.fps = 50
+        self.delta_time = 1 / self.fps
+
+        # HELIX VERTEX POINTS
+        self.vertex1 = []
+        self.vertex2 = []
+        n = 360
+
+        #Helix EQUATION
+        loops = 10
+        for i in range(n+n):
+            t = ((loops*math.pi - 0 ) / n ) * i
+            x = math.cos(t)
+            y = math.sin(t)
+            z = 0.01*t
+            self.vertex1.append([x,y,z])
+
+        #Torodial Spiral
+        R = 6/4
+        r = 2/4
+        loops = 10
+        for i in range(n+n):
+            t = ((5*math.pi - 0 ) / n ) * i
+            x = (r*math.sin(loops*t)+R)*math.cos(t)
+            y = (r*math.sin(loops*t)+R)*math.sin(t)
+            z = R*math.cos(loops*t)
+            self.vertex2.append([x,y,z])
 
 
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
@@ -139,9 +148,14 @@ class GLWidget(QGLWidget):
 
         
     def animate(self):
+        
 
-        glRotatef(1, 0, 0, 1)
-        self.updateGL()
+        glRotatef(0.01, 0, 0, 1)
+        
+        self.current_time = time.time()
+        if (self.current_time - self.last_time >= self.delta_time):
+            self.last_time = self.current_time
+            self.updateGL()
 
     
 if __name__ == '__main__':

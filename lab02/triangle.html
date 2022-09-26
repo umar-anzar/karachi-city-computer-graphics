@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>B19102104 Muhammad Umar Anzar</title>
+        
+    </head>
+    <body onload="draw2d();draw3d()">
+        <canvas id="canvas1" class = "pyramid" width="300" height="300" style="border:1px solid #000000;"></canvas>
+        <canvas id="canvas2" class = "pyramid" width="300" height="300" style="border:1px solid #000000;"></canvas>
+
+
+        <script type="application/javascript">
+            draw2d = () => {
+                let c = document.getElementById("canvas1");
+                let ctx = c.getContext("2d");
+                ctx.fillStyle = "#0000ff";
+                let height = 100;
+                let width = 200;
+                let x1 = 150;
+                let y1 = 75;
+                let x2 = x1-100;
+                let y2 = y1 + 100;
+                let x3 = x1 + 100;
+                let y3 = y2;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineTo(x3, y3);
+                ctx.closePath();
+                //ctx.stroke();
+                ctx.fill();
+
+            };
+
+            function draw3d() {
+                var canvas = document.getElementById("canvas2");
+
+                var glCtx = null;
+                var exmsg = "WebGL not supported";
+                try
+                {
+                    glCtx = canvas.getContext("webgl");
+                }
+                catch (e)
+                {
+                    exmsg = "Exception thrown: " + e.toString();
+                }
+                if (!glCtx)
+                {
+                    alert(exmsg);
+                    throw new Error(exmsg);
+                }
+
+                // set viewport
+                glCtx.viewport(0, 0, canvas.width, canvas.height);
+            
+            
+                // Vertex Data
+                vertBuffer = glCtx.createBuffer();
+                glCtx.bindBuffer(glCtx.ARRAY_BUFFER, vertBuffer);
+                var verts = [
+                0.0, 1.0, 0.0,
+                -1.0, 0.0, 0.0,
+                0.0, 0.0, 1.0,
+
+                0.0, 1.0, 0.0,
+                0.0, 0.0, 1.0,
+                1.0, 0.0, 0.0,
+
+                0.0, 1.0, 0.0,
+                1.0, 0.0, 0.0,
+                0.0, 0.0, -1.0,
+
+                0.0, 1.0, 0.0,
+                0.0, 0.0, -1.0,
+                -1.0, 0.0, 0.0
+
+                ];
+                glCtx.bufferData(glCtx.ARRAY_BUFFER, new Float32Array(verts), 
+                glCtx.STATIC_DRAW);
+            
+                
+                colorBuffer = glCtx.createBuffer();
+                glCtx.bindBuffer(glCtx.ARRAY_BUFFER, colorBuffer);
+                var faceColors = [
+                            [0.0, 0.0, 1.0, 1.0], // front  (blue)
+                            [1.0, 1.0, 0.0, 1.0], // right  (yellow)
+                            [0.0, 1.0, 0.0, 1.0], // back   (green)
+                            [1.0, 0.0, 0.0, 1.0], // left   (red)
+                ];
+                var vertColors = [];
+                faceColors.forEach(function(color) {
+                    [0,1,2].forEach(function () {
+                    vertColors = vertColors.concat(color);
+                    });
+                    });        
+                glCtx.bufferData(glCtx.ARRAY_BUFFER,
+                new Float32Array(vertColors), glCtx.STATIC_DRAW);
+                
+            
+            };
+        </script>
+
+
+    </body>
+    
+</html>

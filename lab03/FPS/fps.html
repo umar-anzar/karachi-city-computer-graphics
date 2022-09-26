@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>AAA</title>
+        <style>
+            body {
+                margin: auto;
+                margin-bottom: 100px;
+                background-color: #36393e;
+                color: white;
+            }
+
+            canvas {
+                width: 70%;
+                height: 60%;
+                border: 5px solid #ffa500;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="js/three.js"></script>
+
+        <h2>B19102104-Muhammad Umar Anzar</h2>
+        <div style="text-align: center;">
+            <h1>FPS</h1>
+            <canvas id="myCanvas" myattr="myattr"></canvas>
+        </div>
+
+        <div style="text-align: center;">
+            <input type="range" min="1" max="100" value="50" class="slider" id="fps" onchange="BtnSetFps()">
+            <label id="fpsLabel">Fps: 50</label>
+        </div>
+
+        </canvas>
+
+        <script>
+            
+            //Canvas
+            var canvas = document.getElementById("myCanvas");
+
+            //Scene Perspective and Render
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(40, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+
+            var renderer = new THREE.WebGLRenderer({ canvas: myCanvas });
+
+            renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+            //Initilize empty Canvas
+            renderer.render(scene, camera);
+
+            camera.position.set(0, 0, 5);
+            camera.lookAt(0, 0, 0);
+
+            //Creating Cube
+            const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+            const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+            var cube = new THREE.Mesh( geometry, material );
+            scene.add( cube );
+
+            var radian = (angle) => angle*180/Math.PI;
+            //Rotation variable
+            var i = 0.001
+
+        </script>
+
+
+        <script>
+            
+            //FPS
+            var last_time = 0;
+            var current_time = 0
+            var fps = 10;
+            var delta_time = 1000 / fps;
+
+
+            //Set Fps function
+            var fps_tag = document.getElementById("fps");
+            var fps_label = document.getElementById("fpsLabel");
+
+            var BtnSetFps = () => {
+
+                fps = Number(fps_tag.value);
+
+                if (isNaN(fps)) {
+                    fps=60;
+                }
+
+                fps_label.innerHTML = "Fps: "+fps
+                delta_time = 1000 / fps;
+            }
+            BtnSetFps();
+
+
+            //Variables update function
+            var update = () => {
+                cube.rotation.x += radian(i);
+                cube.rotation.y += radian(i);
+                cube.rotation.z += radian(i);
+            };
+
+            var render = () => renderer.render(scene, camera);
+
+
+            //GAMELOOP
+            var GameLoop = () => {
+                update();
+
+                current_time = new Date().getTime();
+                if ((current_time - last_time ) >=  delta_time) {
+                    render();
+                    last_time = current_time;
+                }
+
+                requestAnimationFrame(GameLoop);
+            };
+
+            GameLoop();
+
+
+        </script>
+
+
+    </body>
+
+</html>

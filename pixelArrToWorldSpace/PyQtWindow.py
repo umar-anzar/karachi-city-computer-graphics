@@ -23,9 +23,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer = QtCore.QTimer()
         self.animate = True
 
-        #Button functions
-        self.Btn_clear.clicked.connect(self.closeEvent)
-        self.Btn_draw.clicked.connect(self.animation)
 
     def windowSetting(self) -> None:
         self.setWindowTitle("B19102104 M UMAR ANZAR Map Pixel Image Onto World Space")
@@ -47,16 +44,12 @@ class MainWindow(QtWidgets.QMainWindow):
        
         self.central_widget = QtWidgets.QWidget(self)
         self.GL_window = GL_window.GLWidget(self.central_widget)
-        self.Btn_clear = QtWidgets.QPushButton("Animation Off",self.central_widget)
-        self.Btn_draw = QtWidgets.QPushButton("Animation ON",self.central_widget)
 
         self.verticalLayout1 = QtWidgets.QVBoxLayout(self.central_widget)
         self.horizontalLayout1 = QtWidgets.QHBoxLayout()
 
         self.verticalLayout1.addWidget(self.GL_window)
         self.verticalLayout1.addLayout(self.horizontalLayout1)
-        self.horizontalLayout1.addWidget(self.Btn_draw)
-        self.horizontalLayout1.addWidget(self.Btn_clear)
 
     def animation(self):
         #Function That uses Qtimer multiThreading to Animated The OpenGl Widget

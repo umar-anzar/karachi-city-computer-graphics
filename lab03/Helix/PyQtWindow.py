@@ -65,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.timer.timeout.connect(self.GL_window.animate) #Updating OpenGl Widget
 
             #Starts or restarts the timer with a timeout interval of msec milliseconds. Like setting FPS
-            self.timer.start(1)
+            self.timer.start()
             self.animate = False
         
 
@@ -74,3 +74,4 @@ class MainWindow(QtWidgets.QMainWindow):
             print("Animation OFF")
         self.animate = True
         self.timer.stop()
+        self.timer = QtCore.QTimer()

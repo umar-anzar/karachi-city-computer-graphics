@@ -1,0 +1,2 @@
+pyopengl acceletrate and normal in lib folder
+pyqt5
