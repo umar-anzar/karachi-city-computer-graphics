@@ -78,7 +78,8 @@ class GLWidget(QGLWidget):
         #Torodial Spiral
         R = 6/4
         r = 2/4
-        loops = 10
+        loops = 20
+        n = 800
         for i in range(n+n):
             t = ((5*math.pi - 0 ) / n ) * i
             x = (r*math.sin(loops*t)+R)*math.cos(t)

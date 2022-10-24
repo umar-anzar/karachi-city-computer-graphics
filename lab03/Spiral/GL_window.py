@@ -49,7 +49,8 @@ class GLWidget(QGLWidget):
 
 
         gluOrtho2D(-1.0, 1.0,-1.0,1.0)# Specify the max coordinates -x,+x,-y,+y.
-
+        glViewport(10,10,300,400)
+        
 
 
         #glut.glutInitDisplayMode(glut.GLUT_DOUBLE | glut.GLUT_RGBA) I think its not working
