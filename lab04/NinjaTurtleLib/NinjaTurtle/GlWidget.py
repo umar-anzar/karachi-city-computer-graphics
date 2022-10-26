@@ -95,24 +95,24 @@ class GlWidget(QGLWidget):
         glPointSize(5.0) #The glPointSize function specifies the diameter of rasterized points
         
         
-        glBegin(GL_LINES)
+        # glBegin(GL_LINES)
 
-        #glColor3f can be called in between glBegin and glEnd. When it is used this way, it can be used to give each vertex its own color.
-        #glColor3f sets R,G,B and A
+        # #glColor3f can be called in between glBegin and glEnd. When it is used this way, it can be used to give each vertex its own color.
+        # #glColor3f sets R,G,B and A
 
-        # X-AXIS--------------------------------------------------------------------------------
-        glColor3f(1.0, 0.0, 0.0) #red
+        # # X-AXIS--------------------------------------------------------------------------------
+        # glColor3f(1.0, 0.0, 0.0) #red
 
-        glVertex2f(-1.0,0)
+        # glVertex2f(-1.0,0)
 
-        glVertex2f(1.0, 0)
+        # glVertex2f(1.0, 0)
         
-        # Y-AXIS
-        glColor3f(0.0, 1.0, 0.0) #green
-        glVertex2f(0, -1.0)
-        glVertex2f(0, 1.0)
-        glEnd()
-        glFlush() #The glFlush function forces execution of OpenGL functions in finite time.
+        # # Y-AXIS
+        # glColor3f(0.0, 1.0, 0.0) #green
+        # glVertex2f(0, -1.0)
+        # glVertex2f(0, 1.0)
+        # glEnd()
+        # glFlush() #The glFlush function forces execution of OpenGL functions in finite time.
 
 
 

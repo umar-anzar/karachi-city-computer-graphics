@@ -69,7 +69,7 @@ class GLWidget(QGLWidget):
         #Helix EQUATION
         loops = 10
         for i in range(n+n):
-            t = ((loops*math.pi - 0 ) / n ) * i
+            t = (((loops+1)*math.pi - 0 ) / n ) * i
             x = math.cos(t)
             y = math.sin(t)
             z = 0.01*t
@@ -81,7 +81,7 @@ class GLWidget(QGLWidget):
         loops = 20
         n = 800
         for i in range(n+n):
-            t = ((5*math.pi - 0 ) / n ) * i
+            t = ((2*math.pi - 0 ) / n ) * i
             x = (r*math.sin(loops*t)+R)*math.cos(t)
             y = (r*math.sin(loops*t)+R)*math.sin(t)
             z = R*math.cos(loops*t)
