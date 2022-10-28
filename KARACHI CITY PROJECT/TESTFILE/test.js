@@ -1,0 +1,1 @@
+const loader = new ObjectLoader();
