@@ -25,7 +25,7 @@ export function buildingPositionGenerator(planeW,planeH,topCorner,xOffset,yOffse
       b_one.y -= row*(buildingTile.L + 2*xOffset);
       b_two = {x: b_one.x ,y: b_one.y - maxBuildingSize.L};
       for (let col = 0; col < xTiles*2; col++) {
-        if (col == 6 || col == 7 || col==8 || col==9 || col==10){continue;}
+        if (col == 6 || col == 7 || col==8 || col==9){continue;}
         let pos1 = [b_one.x + col*maxBuildingSize.W, b_one.y];
         let pos2 = [b_two.x + col*maxBuildingSize.W, b_two.y];
         positionArray.push(pos1,pos2);
