@@ -188,7 +188,7 @@ var camera2 = new THREE.PerspectiveCamera(40, canvas.offsetWidth / canvas.offset
 camera2.lookAt(0,-1,0);
 
 var camera3 = new THREE.PerspectiveCamera(40, canvas.offsetWidth / canvas.offsetHeight, 0.1 ,1000);
-camera3.rotateY(90);
+camera3.rotateY(45);
 
 
 //Viewport
