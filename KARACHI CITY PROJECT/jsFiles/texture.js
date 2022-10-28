@@ -1,4 +1,4 @@
-//By Izhan 048, Modifed by Umar 104
+
 const sides = ["ft", "bk", "up", "dn", "rt", "lf"];
 export function boxTexture (location,name) {
   let materialArray = [];

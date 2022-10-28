@@ -41,13 +41,13 @@ for (let index = 0; index < 5; index++) {
 
 
 
-var skyboxGeo = new THREE.BoxGeometry(400, 400, 400);
+var skyboxGeo = new THREE.BoxGeometry(500, 500, 500);
 var skybox = new THREE.Mesh(skyboxGeo, skyboxTextureMaterial);
   
 CVOBJ.scene.add(skybox);
 
 // Plane ---------------------------------------------------------------------
-let p_widht = 320;
+let p_widht = 500;
 let p_length = 180;
 let xTiles = 8;
 let yTiles = 3;
@@ -184,11 +184,18 @@ CVOBJ.scene.add(hlight)
 
 
 
-var camera2 = new THREE.PerspectiveCamera(40, CVOBJ.canvas.offsetWidth / CVOBJ.canvas.offsetHeight, 0.1 ,1000);
+var camera2 = new THREE.PerspectiveCamera(40, canvas.offsetWidth / canvas.offsetHeight, 0.1 ,1000);
 camera2.lookAt(0,-1,0);
 
-var camera3 = new THREE.PerspectiveCamera(40, CVOBJ.canvas.offsetWidth / CVOBJ.canvas.offsetHeight, 0.1 ,1000);
+var camera3 = new THREE.PerspectiveCamera(40, canvas.offsetWidth / canvas.offsetHeight, 0.1 ,1000);
 camera3.rotateY(90);
+
+
+//Viewport
+var width = CVOBJ.canvas.offsetWidth/4;
+var height = CVOBJ.canvas.offsetHeight/4;
+var x =  CVOBJ.canvas.offsetWidth - width;
+var y = CVOBJ.canvas.offsetHeight - height;
 
 
 
@@ -205,11 +212,11 @@ var delta_time = 1000 / FPS;
 //Variables update function
 var update = () => {
   camera2.position.set(CVOBJ.camera.position.x,200,CVOBJ.camera.position.z);
-  camera3.position.set(p_widht,50,CVOBJ.camera.position.z);
+  camera3.position.set(p_widht-100,50,CVOBJ.camera.position.z);
     
 };
 
-var render = () => CVOBJ.render();
+
 
 
 //GAMELOOP
@@ -221,21 +228,17 @@ var GameLoop = () => {
         
       CVOBJ.renderer.setViewport(0,0,CVOBJ.canvas.offsetWidth,CVOBJ.canvas.offsetHeight);
       CVOBJ.renderer.setScissor(0,0,CVOBJ.canvas.offsetWidth,CVOBJ.canvas.offsetHeight);
-      CVOBJ.renderer.setScissorTest(false);
+      CVOBJ.renderer.setScissorTest(true);
       CVOBJ.renderer.render(CVOBJ.scene,CVOBJ.camera);
 
-      CVOBJ.renderer.setViewport(0,0,CVOBJ.canvas.offsetWidth/4,CVOBJ.canvas.offsetHeight/4);
-      CVOBJ.renderer.setScissor(0,0,CVOBJ.canvas.offsetWidth/4,CVOBJ.canvas.offsetHeight/4);
+      CVOBJ.renderer.setViewport(0, 0, width, height);
+      CVOBJ.renderer.setScissor(0, 0, width, height);
       CVOBJ.renderer.setScissorTest(true);
       CVOBJ.renderer.render(CVOBJ.scene,camera2);
 
-      CVOBJ.renderer.setViewport(CVOBJ.canvas.offsetWidth-CVOBJ.canvas.offsetWidth/4,
-      CVOBJ.canvas.offsetHeight-CVOBJ.canvas.offsetHeight/4,
-      CVOBJ.canvas.offsetWidth/4,CVOBJ.canvas.offsetHeight/4);
-
-      CVOBJ.renderer.setScissor(CVOBJ.canvas.offsetWidth-CVOBJ.canvas.offsetWidth/4,
-      CVOBJ.canvas.offsetHeight-CVOBJ.canvas.offsetHeight/4,
-      CVOBJ.canvas.offsetWidth/4,CVOBJ.canvas.offsetHeight/4);
+      
+      CVOBJ.renderer.setViewport(x, y, width, height);
+      CVOBJ.renderer.setScissor(x, y, width, height);
 
       CVOBJ.renderer.setScissorTest(true);
       CVOBJ.renderer.render(CVOBJ.scene,camera3);
