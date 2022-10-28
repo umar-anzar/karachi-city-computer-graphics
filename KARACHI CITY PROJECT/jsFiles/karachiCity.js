@@ -41,13 +41,13 @@ for (let index = 0; index < 5; index++) {
 
 
 
-var skyboxGeo = new THREE.BoxGeometry(500, 500, 500);
+var skyboxGeo = new THREE.BoxGeometry(400, 400, 500);
 var skybox = new THREE.Mesh(skyboxGeo, skyboxTextureMaterial);
   
 CVOBJ.scene.add(skybox);
 
 // Plane ---------------------------------------------------------------------
-let p_widht = 500;
+let p_widht = 320;
 let p_length = 180;
 let xTiles = 8;
 let yTiles = 3;
